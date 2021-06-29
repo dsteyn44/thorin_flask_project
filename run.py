@@ -18,19 +18,19 @@ def index():
 # creating another route of view
 @app.route("/about")
 def about():
-     return render_template('about.html')
-
+     return render_template('about.html', page_title="About")
+# the above page_title is a variable we made up but can be anything
 
 # Creating another route. Must have 2 blank lines to keep it PEP 8
 # compliant
 @app.route("/contact")
 def contact():
-     return render_template('contact.html')
+     return render_template('contact.html', page_title="Contact ")
 
 
 @app.route("/careers")
 def careers():
-     return render_template('careers.html')
+     return render_template('careers.html', page_title="Careers")
 
 
 if __name__ == "__main__": # __main__ is the default module name
