@@ -6,7 +6,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 # Creating an instance and storing it in a variable called app
 # (__name__) is a built in python variable
-# Flask needs this so that it knows where to look 
+# Flask needs this so that it knows where to look. 
 # for templates
 
 @app.route("/")
@@ -24,6 +24,19 @@ def about():
         data = json.load(json_data)
     return render_template("about.html", page_title="About", company=data)
 # the above page_title is a variable we made up but can be anything
+
+# in order to add an advanced route we have to add a new @app.route"/about" 
+@app.route("/about/<member_name>")
+def about_member(member_name):
+    member = {}
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+# want to check if that object's url key from the file is equal to the member_name
+        for obj in data:
+             if obj["url"] == member_name:
+                 member = obj
+    return render_template("member.html", member = member)
+    #return "<h1>" + member["name"] + "</h1>" note thge syntax
 
 # Creating another route. Must have 2 blank lines to keep it PEP 8
 # compliant
