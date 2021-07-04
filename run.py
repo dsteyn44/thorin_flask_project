@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template
 # importing Flask class
 
@@ -18,7 +19,10 @@ def index():
 # creating another route of view
 @app.route("/about")
 def about():
-     return render_template('about.html', page_title="About")
+    data = []
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+    return render_template("about.html", page_title="About", company=data)
 # the above page_title is a variable we made up but can be anything
 
 # Creating another route. Must have 2 blank lines to keep it PEP 8
