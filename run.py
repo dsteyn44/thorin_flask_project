@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 # importing Flask class
 
 app = Flask(__name__)
@@ -36,21 +36,23 @@ def about_member(member_name):
              if obj["url"] == member_name:
                  member = obj
     return render_template("member.html", member = member)
-    #return "<h1>" + member["name"] + "</h1>" note thge syntax
+    # return "<h1>" + member["name"] + "</h1>" note thge syntax
 
 # Creating another route. Must have 2 blank lines to keep it PEP 8
 # compliant
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-     return render_template('contact.html', page_title="Contact ")
-
+    if request.method == "POST":
+        print(request.form.get("name"))
+        print(request.form["email"])
+    return render_template("contact.html", page_title="Contact")
 
 @app.route("/careers")
 def careers():
      return render_template('careers.html', page_title="Careers")
 
 
-if __name__ == "__main__": # __main__ is the default module name
+if __name__ == "__main__":  # __main__ is the default module name
     app.run(
         host=os.environ.get("IP", "0.0.0.0"),
         port=int(os.environ.get("PORT", "5000")),
