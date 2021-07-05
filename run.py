@@ -1,9 +1,14 @@
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
+if os.path.exists("envy.py"):
+    import env
+
 # importing Flask class
 
+
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY")
 # Creating an instance and storing it in a variable called app
 # (__name__) is a built in python variable
 # Flask needs this so that it knows where to look. 
@@ -31,7 +36,8 @@ def about_member(member_name):
     member = {}
     with open("data/company.json", "r") as json_data:
         data = json.load(json_data)
-# want to check if that object's url key from the file is equal to the member_name
+# want to check if that object's url key from the file is equal to the 
+# member_name
         for obj in data:
              if obj["url"] == member_name:
                  member = obj
@@ -43,8 +49,10 @@ def about_member(member_name):
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        print(request.form.get("name"))
-        print(request.form["email"])
+        flash("Thanks {}, we have received your message!".format(
+            request.form.get("name")))
+        #print(request.form.get("name"))
+        #print(request.form["email"])
     return render_template("contact.html", page_title="Contact")
 
 @app.route("/careers")
